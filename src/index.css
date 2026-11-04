@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Barlow Condensed", "Cairo", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: "Plus Jakarta Sans", "Cairo", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "JetBrains Mono", "Cairo", ui-monospace, SFMono-Regular, monospace;
+
+  --color-studio: #F4F6F9;
+  --color-studio-warm: #EAEFF5;
+  --color-navy: #0A1120;
+  --color-navy-light: #131F38;
+  --color-park-blue: #0073CF;
+  --color-electric-cyan: #00A8E8;
+  --color-chain-gold: #D97706;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+    background-color: #F4F6F9;
+    color: #0A1120;
+  }
+
+  h1, h2, h3, .font-display {
+    text-wrap: balance;
+  }
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Tactile directional curtain button inspired by high-craft creative engineering repos */
+.btn-mechanical {
+  position: relative;
+  overflow: hidden;
+  transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-mechanical::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #0073CF 0%, #00A8E8 100%);
+  transform: translate3d(-101%, 0, 0);
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 0;
+}
+
+.btn-mechanical:hover::before {
+  transform: translate3d(0, 0, 0);
+}
+
+.btn-mechanical:active {
+  transform: scale(0.985);
+}
+
+/* Subtle carbon fiber studio micro-grid pattern */
+.bg-studio-grid {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(10, 17, 32, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(10, 17, 32, 0.035) 1px, transparent 1px);
+}
+

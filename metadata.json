@@ -1,0 +1,6 @@
+{
+  "name": "Velo Reglo — Atelier Vélo & E-Bike par Maher Habouria",
+  "description": "Atelier professionnel de réparation, préparation course et diagnostic vélo & e-bike à Nabeul par Maher Habouria, 10x Champion de Tunisie et 3x Champion Arabe.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
