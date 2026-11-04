@@ -2,6 +2,8 @@ export type Language = 'fr' | 'tn' | 'en';
 
 export type BikeCategory = 'road' | 'mtb' | 'ebike' | 'gravel';
 
+export type AssemblyStageIndex = 1 | 2 | 3 | 4 | 5 | 6;
+
 /**
  * Direct WhatsApp booking link for Maher Habouria / Velo Reglo without any pre-edited text or form.
  */
@@ -38,26 +40,23 @@ export interface WorkshopReelItem {
   drivetrain: string;
   torque: string;
   views: string;
-  imageCropPosition: string;
   imageSrc: string;
   operations: Record<Language, string[]>;
 }
 
-export interface CustomAssetPromptItem {
-  id: string;
-  slotKey:
-    | 'stage1_frame'
-    | 'stage1_falling_chain'
-    | 'stage2_drivetrain'
-    | 'stage3_superbike'
-    | 'floating_components'
-    | 'video_1_to_2'
-    | 'video_2_to_3';
-  format: 'PNG Cutout (Transparent)' | 'Scroll Video (MP4 / WebM)';
-  stageLabel: Record<Language, string>;
-  title: Record<Language, string>;
-  aspectRatio: string;
-  prompt: string;
+export interface AssemblyStepCopy {
+  stepNumber: string;
+  pillLabel: string;
+  kicker: string;
+  backdropWord: string;
+  title: string;
+  description: string;
+  cta: string;
+  toolCode: string;
+  torqueSpec: string;
+  rightCalloutTitle: string;
+  rightCalloutBody: string;
+  expertChecklist: [string, string, string];
 }
 
 export const BIKE_CATEGORY_MULTIPLIERS: Record<BikeCategory, number> = {
@@ -78,7 +77,7 @@ export const SERVICE_OPTIONS: ServiceOption[] = [
     },
     detail: {
       fr: 'Démontage intégral sur pied Park Tool, graissage roulements céramiques, serrage au couple.',
-      tn: 'حلّان vélo كامل على support Park Tool أزرق\u200F، تشحيم roulements céramiques وتكبيس بـ clé dynamométrique\u200F.',
+      tn: 'حلّان vélo كامل على support Park Tool الأزرق\u200F، تشحيم roulements céramiques وتكبيس بـ clé dynamométrique\u200F.',
       en: 'Full teardown on Park Tool stand, ceramic bearing lubrication, precision torque calibration.',
     },
     basePriceTnd: 140,
@@ -143,45 +142,45 @@ export const STAGE_3_CARDS: StageSpecCard[] = [
     id: 'card-drivetrain',
     badgeCode: 'SPEC 01 · TRANSMISSION',
     title: {
-      fr: 'TRANSMISSION & CÉRAMIQUE',
-      tn: 'TRANSMISSION و ROULEMENTS CÉRAMIQUES',
-      en: 'DRIVETRAIN & CERAMICS',
+      fr: 'CHAÎNE OR & ULTRASONS',
+      tn: 'CHAÎNE OR و تنظيف ULTRASONS',
+      en: 'GOLD CHAIN & ULTRASONICS',
     },
     subtitle: {
-      fr: '12V DI2 / AXS · -4.2 WATTS DE FRICTION',
-      tn: 'تبديل vitesses Di2 / AXS خفيف · أسرع في الطلعة',
-      en: '12S DI2 / AXS · -4.2 WATTS FRICTION LOSS',
+      fr: 'DÉGRAISSAGE INTÉGRAL · HUILE CÉRAMIQUE / CIRE',
+      tn: 'Dégraissage عميق · تشحيم Huile Céramique للسباق',
+      en: 'DEEP DEGREASE · CERAMIC OIL / RACE WAX',
     },
     protocol: {
-      fr: 'Alignement laser du dérailleur, bain à ultrasons intégral et lubrification cire haute vitesse.',
-      tn: 'تعديل dérailleur باللازر\u200F، غسيل cassette و chaîne بـ ultrasons وتشميع خاص للسباقات.',
-      en: 'Laser hanger alignment, full ultrasonic bath and high-velocity race wax treatment.',
+      fr: 'Contrôle d’usure CC-4, dégraissage ultrason, pose d’une chaîne neuve si nécessaire et lubrification maillon par maillon.',
+      tn: 'قيس chaîne بآلة CC-4\u200F، غسيل و dégraissage بـ ultrasons\u200F، تبديل chaîne جديدة كان لزم وتشحيمها كعبة بكعبة.',
+      en: 'CC-4 wear check, ultrasonic degreasing, new gold chain replacement if stretched, and link-by-link ceramic lube.',
     },
     metric: '0.08 mm Tolérance',
-    tiltDeg: -6,
+    tiltDeg: -5,
     serviceId: 'drivetrain_ultrasonic',
   },
   {
-    id: 'card-ebike',
-    badgeCode: 'SPEC 02 · MOTORISATION',
+    id: 'card-wheels',
+    badgeCode: 'SPEC 02 · ROUES & TUBELESS',
     title: {
-      fr: 'MOTEURS E-BIKE & COUPLE',
-      tn: 'MOTEURS VÉLO ÉLECTRIQUE و BATTERIE',
-      en: 'E-BIKE MOTORS & TORQUE',
+      fr: 'ROUES ZIPP & TUBELESS MAXXIS',
+      tn: 'ROUES ZIPP CARBONE و TUBELESS MAXXIS',
+      en: 'ZIPP WHEELS & MAXXIS TUBELESS',
     },
     subtitle: {
-      fr: 'BOSCH CX / SHIMANO EP8 · 85 NM CALIBRÉS',
-      tn: 'صيانة كاملة للموتور و batterie · عزم 85 نيوتن',
-      en: 'BOSCH CX / SHIMANO EP8 · 85 NM CALIBRATED',
+      fr: 'PRÉVENTIF 60 ML · DÉVOILAGE TENSIOMÈTRE',
+      tn: 'تعمير Liquide Préventif Tubeless · تعديل Roues عالميزان',
+      en: '60 ML SEALANT FILL · TENSIOMETER TRUING',
     },
     protocol: {
-      fr: 'Ouverture carter moteur, remplacement des roulements planétaires et test thermique batterie.',
-      tn: 'حلّان carter moteur\u200F، تبديل roulements planétaires وتجربة صحة batterie والسخونة.',
-      en: 'Motor housing teardown, planetary gear bearing replacement and battery thermal load test.',
+      fr: 'Réparation crevaisons, remplacement fond de jante et valves, remplissage liquide préventif tubeless et équilibrage.',
+      tn: 'تصليح pneus\u200F، تبديل fond de jante و valves\u200F، تعمير liquide préventif tubeless وتعديل rayons عالميزان.',
+      en: 'Puncture repair, rim tape & valve service, fresh tubeless sealant liquid injection, and spoke tension balancing.',
     },
-    metric: '100% Étanchéité IPX6',
+    metric: '1.4 / 1.6 BAR XCO',
     tiltDeg: 0,
-    serviceId: 'ebike_diagnostics',
+    serviceId: 'hydraulic_suspension',
   },
   {
     id: 'card-podium',
@@ -197,20 +196,16 @@ export const STAGE_3_CARDS: StageSpecCard[] = [
       en: '10× NATIONAL CHAMPION PROTOCOL',
     },
     protocol: {
-      fr: 'Serrage dynamométrique certifié sur chaque vis titane/carbone, purge freins et équilibrage roues.',
-      tn: 'تكبيس كل vis titane و carbone بـ clé dynamométrique\u200F، مع purge freins وتعديل roues عالميزان.',
-      en: 'Certified torque wrench check on every titanium/carbon bolt, brake bleed and wheel truing.',
+      fr: 'Serrage dynamométrique certifié sur chaque vis titane/carbone, purge freins hydrauliques et réglage suspension Kashima.',
+      tn: 'تكبيس كل vis titane و carbone بـ clé dynamométrique\u200F، مع purge freins hydrauliques وتعديل fourche Kashima\u200F.',
+      en: 'Certified torque wrench check on every titanium/carbon bolt, hydraulic brake bleed, and Kashima suspension tuning.',
     },
     metric: '40.0 Nm Lockring',
-    tiltDeg: 6,
+    tiltDeg: 5,
     serviceId: 'complete_overhaul',
   },
 ];
 
-/**
- * Exact 100% uncropped vertical Reel coordinates (`width = 154, height = 246`)
- * inside `/assets/aistudio/image_c486ec23.png` (1920x1080).
- */
 export const WORKSHOP_REELS: WorkshopReelItem[] = [
   {
     id: 'reel-bmc',
@@ -230,8 +225,7 @@ export const WORKSHOP_REELS: WorkshopReelItem[] = [
     drivetrain: 'Shimano Ultegra Di2 12v',
     torque: '5.2 Nm Cockpit',
     views: '1.8K',
-    imageCropPosition: '378 512 154 246',
-    imageSrc: '/assets/aistudio/image_c486ec23.png',
+    imageSrc: '/assets/aistudio/props/reel-bmc.jpg',
     operations: {
       fr: [
         'Routage interne durites hydrauliques',
@@ -268,8 +262,7 @@ export const WORKSHOP_REELS: WorkshopReelItem[] = [
     drivetrain: 'SRAM XX1 Eagle Gold',
     torque: '40.0 Nm Lockring',
     views: '5.1K',
-    imageCropPosition: '1208 224 154 246',
-    imageSrc: '/assets/aistudio/image_c486ec23.png',
+    imageSrc: '/assets/aistudio/props/reel-sram-gold.jpg',
     operations: {
       fr: [
         'Bain ultrason dégraissant biodégradable',
@@ -306,8 +299,7 @@ export const WORKSHOP_REELS: WorkshopReelItem[] = [
     drivetrain: 'Mid-Drive Planetary Geared',
     torque: '25.0 Nm Carter',
     views: '889',
-    imageCropPosition: '1374 512 154 246',
-    imageSrc: '/assets/aistudio/image_c486ec23.png',
+    imageSrc: '/assets/aistudio/props/reel-ebike-motor.jpg',
     operations: {
       fr: [
         'Extraction roulements étanches au presse-atelier',
@@ -344,8 +336,7 @@ export const WORKSHOP_REELS: WorkshopReelItem[] = [
     drivetrain: 'Shimano XTR / Ultegra Pro',
     torque: '6.0 Nm Axes Traversants',
     views: '3.0K',
-    imageCropPosition: '1208 512 154 246',
-    imageSrc: '/assets/aistudio/image_c486ec23.png',
+    imageSrc: '/assets/aistudio/props/reel-canyon.jpg',
     operations: {
       fr: [
         'Alignement boîtier PressFit & roulements céramiques',
@@ -366,155 +357,20 @@ export const WORKSHOP_REELS: WorkshopReelItem[] = [
   },
 ];
 
-export const CUSTOM_ASSET_PROMPTS: CustomAssetPromptItem[] = [
-  {
-    id: 'prompt-stage-1-frame',
-    slotKey: 'stage1_frame',
-    format: 'PNG Cutout (Transparent)',
-    stageLabel: {
-      fr: 'Étape 01 · Le Cadre (Équivalent "Grind")',
-      tn: 'المرحلة 01 · Cadre Carbone على Support Bleu',
-      en: 'Stage 01 · The Frame ("Grind" Equivalent)',
-    },
-    title: {
-      fr: 'Cadre Carbone Brut sur Pied Park Tool Bleu',
-      tn: 'Cadre carbone على support Park Tool الأزرق',
-      en: 'Raw Carbon Frame on Blue Park Tool Stand',
-    },
-    aspectRatio: '4:5',
-    prompt:
-      'Ultra-detailed commercial studio product photography of a matte raw 3K woven carbon fiber mountain/road bike frame clamped onto an anodized Park Tool blue (#0073CF) professional mechanic repair stand, three-quarter side profile, crisp rim lighting, isolated on a pure solid white background (#FFFFFF) for clean alpha cutout, 8k resolution, photorealistic.',
-  },
-  {
-    id: 'prompt-stage-1-chain',
-    slotKey: 'stage1_falling_chain',
-    format: 'PNG Cutout (Transparent)',
-    stageLabel: {
-      fr: 'Transition 01 → 02 · Chute Verticale (Équivalent grains de café)',
-      tn: 'التحول 01 ← 02 · Dérailleur و Chaîne المذهّبة',
-      en: 'Transition 01 → 02 · Vertical Drop (Coffee Beans Equivalent)',
-    },
-    title: {
-      fr: 'Chaîne Or SRAM XX1 & Galets Céramiques en Mouvement Vertical',
-      tn: 'Chaîne مذهّبة و dérailleur بـ roulements céramiques زرقاء',
-      en: 'Falling Gold SRAM XX1 Chain & Ceramic Pulleys',
-    },
-    aspectRatio: '9:16',
-    prompt:
-      'High-speed macro studio shot of a gleaming gold bicycle chain (SRAM XX1 Eagle Gold) and anodized cyan-blue ceramic derailleur pulley wheels cascading vertically downward through the air, dynamic vertical flow, crisp metallic specular highlights, isolated on a pure white background (#FFFFFF) for transparent cutout, 8k commercial photography.',
-  },
-  {
-    id: 'prompt-stage-2-drivetrain',
-    slotKey: 'stage2_drivetrain',
-    format: 'PNG Cutout (Transparent)',
-    stageLabel: {
-      fr: 'Étape 02 · La Mécanique (Équivalent "Pour")',
-      tn: 'المرحلة 02 · Transmission و Moteur Vélo Électrique',
-      en: 'Stage 02 · The Mechanics ("Pour" Equivalent)',
-    },
-    title: {
-      fr: 'Vue Éclatée Cassette Or 12V & Moteur E-Bike Bosch',
-      tn: 'Cassette مذهّبة و moteur vélo électrique Bosch محلول',
-      en: 'Exploded 12S Gold Cassette & Bosch E-Bike Motor',
-    },
-    aspectRatio: '1:1',
-    prompt:
-      'Exploded technical studio view of a precision 12-speed gold CNC bicycle cassette interlocking with an opened Bosch e-bike mid-drive motor showing clean planetary gears and a blue Park Tool torque wrench, dramatic studio lighting with cyan and gold reflections, isolated on a pure solid white background (#FFFFFF), 8k photorealistic.',
-  },
-  {
-    id: 'prompt-stage-3-superbike',
-    slotKey: 'stage3_superbike',
-    format: 'PNG Cutout (Transparent)',
-    stageLabel: {
-      fr: 'Étape 03 · Le Podium (Équivalent "Sip")',
-      tn: 'المرحلة 03 · Vélo حاضر للـ Podium',
-      en: 'Stage 03 · The Podium ("Sip" Equivalent)',
-    },
-    title: {
-      fr: 'Superbike Carbone Prêt pour la Course ("Bien Réglo")',
-      tn: 'Vélo de course carbone كامل ومريڤل للسباق',
-      en: 'Race-Ready Carbon Superbike ("Bien Réglo")',
-    },
-    aspectRatio: '16:10',
-    prompt:
-      'Hero commercial studio shot of a complete championship-winning full-suspension carbon XC / aero superbike in midnight carbon with subtle electric cyan (#00A8E8) and gold drivetrain accents, deep carbon wheels, razor-sharp focus, floating slightly above a soft studio shadow on a pure solid white background (#FFFFFF), 8k commercial product shot.',
-  },
-  {
-    id: 'prompt-video-transition-1',
-    slotKey: 'video_1_to_2',
-    format: 'Scroll Video (MP4 / WebM)',
-    stageLabel: {
-      fr: 'Vidéo Transition A · Cadre vers Transmission',
-      tn: 'فيديو التحول أ · من Cadre إلى Transmission',
-      en: 'Transition Video A · Frame to Drivetrain',
-    },
-    title: {
-      fr: 'Animation Seamless : La Chaîne Or s’engrène sur la Cassette',
-      tn: 'فيديو انسيابي: Chaîne المذهّبة تركب في Cassette',
-      en: 'Seamless Scroll Video: Gold Chain Locking onto Spinning Cassette',
-    },
-    aspectRatio: '16:9',
-    prompt:
-      'Seamless commercial product transition video on a clean light studio background (#F4F6F9): camera pans vertically downward from a raw carbon bike frame clamped on a blue Park Tool stand, following a falling gold bicycle chain as it smoothly locks onto a spinning 12-speed gold cassette and e-bike motor assembly, 60fps slow-motion macro cinematography.',
-  },
-  {
-    id: 'prompt-video-transition-2',
-    slotKey: 'video_2_to_3',
-    format: 'Scroll Video (MP4 / WebM)',
-    stageLabel: {
-      fr: 'Vidéo Transition B · Transmission vers Superbike Podium',
-      tn: 'فيديو التحول ب · من Transmission إلى Vélo الكامل',
-      en: 'Transition Video B · Drivetrain to Podium Superbike',
-    },
-    title: {
-      fr: 'Animation Seamless : Assemblage Complet du Vélo de Course',
-      tn: 'فيديو انسيابي: تجميع Vélo الكامل للسباق',
-      en: 'Seamless Scroll Video: Drivetrain Zooming Out into Full Race Superbike',
-    },
-    aspectRatio: '16:9',
-    prompt:
-      'Seamless commercial product transition video: starting on a close-up of a spinning gold bicycle cassette and blue Park Tool torque wrench clicking at 40 Nm, camera pulls back smoothly as carbon wheels, hydraulic disc brakes, and a sleek black-and-cyan carbon frame assemble around the drivetrain into a complete championship race bike.',
-  },
-];
-
 export interface LocalizedContent {
   nav: {
     process: string;
     champion: string;
     reels: string;
     bookCta: string;
-    assetStudio: string;
   };
-  stage1: {
-    number: string;
-    kicker: string;
-    backdropWord: string;
-    title: string;
-    description: string;
-    cta: string;
-    rightCalloutTitle: string;
-    rightCalloutBody: string;
-    handoffLabel: string;
-  };
-  stage2: {
-    number: string;
-    kicker: string;
-    backdropWord: string;
-    title: string;
-    description: string;
-    cta: string;
-    rightCalloutTitle: string;
-    rightCalloutBody: string;
-    handoffLabel: string;
-  };
-  stage3: {
-    number: string;
-    kicker: string;
-    backdropWord: string;
-    title: string;
-    description: string;
-    cta: string;
-  };
+  assemblySteps: [
+    AssemblyStepCopy,
+    AssemblyStepCopy,
+    AssemblyStepCopy,
+    AssemblyStepCopy,
+    AssemblyStepCopy,
+  ];
   trophyTransition: {
     number: string;
     pillLabel: string;
@@ -572,49 +428,115 @@ export interface LocalizedContent {
 export const UI_COPY: Record<Language, LocalizedContent> = {
   fr: {
     nav: {
-      process: 'Le Processus',
+      process: 'Le Montage',
       champion: 'Le Champion',
       reels: 'Réalisations',
       bookCta: 'Prendre RDV',
-      assetStudio: 'Studio Assets IA',
     },
-    stage1: {
-      number: '01',
-      kicker: 'DIAGNOSTIC & CHÂSSIS SUR SUPPORT BLEU PARK TOOL',
-      backdropWord: 'CADRE',
-      title: 'LA PRÉCISION COMMENCE AU CADRE.',
-      description:
-        'Chaque vélo — Route Carbone, VTT XCO, Gravel ou Vélo Électrique — est fixé sur notre support bleu Park Tool pour un contrôle géométrique et structurel au dixième de millimètre.',
-      cta: 'Suivre la chaîne mécanique',
-      rightCalloutTitle: 'Inspection Géométrique & Roulements',
-      rightCalloutBody:
-        'Contrôle laser de la patte de dérailleur, état des portées carbone et diagnostic complet avant démontage.',
-      handoffLabel: 'LA CHAÎNE OR DESCEND VERS L’ATELIER ↓',
-    },
-    stage2: {
-      number: '02',
-      kicker: 'CALIBRATION TRANSMISSION, ULTRASONS & VÉLO ÉLECTRIQUE',
-      backdropWord: 'MÉCANIQUE',
-      title: 'L’ALCHIMIE DU COUPLE & DES ENGRENAGES.',
-      description:
-        'La chaîne s’engrène sur la cassette décontaminée aux ultrasons. Moteurs vélo électrique Bosch/Shimano, roulements céramiques et serrage dynamométrique certifié.',
-      cta: 'Voir la finition Podium',
-      rightCalloutTitle: 'Serrage Dynamométrique & Bain Ultrason',
-      rightCalloutBody:
-        'Zéro approximation : chaque vis titane et écrou de cassette est calibré selon les normes constructeur.',
-      handoffLabel: 'ASSEMBLAGE FINAL SUR LE VÉLO DE COURSE ↓',
-    },
-    stage3: {
-      number: '03',
-      kicker: 'FINITION COURSE · #VELO_REGLO_BIEN_REGLO',
-      backdropWord: 'PODIUM',
-      title: 'PRÊT POUR LE PODIUM. BIEN RÉGLO.',
-      description:
-        'Quand la mécanique est signée par un 10× Champion de Tunisie, chaque coup de pédale est transformé en vitesse pure, sans bruit ni friction.',
-      cta: 'Prendre RDV sur WhatsApp',
-    },
+    assemblySteps: [
+      {
+        stepNumber: '01',
+        pillLabel: 'CADRE',
+        kicker: 'ÉTAPE 01/05 · CHÂSSIS CARBONE SUR SUPPORT PARK TOOL BLEU',
+        backdropWord: 'CADRE',
+        title: 'TOUT COMMENCE SUR LE CADRE CARBONE VELO REGLO.',
+        description:
+          'Nous fixons le cadre nu sur le pied d’atelier bleu Park Tool. En tant que mécanicien expert, je contrôle l’état des fibres de carbone, j’aligne la patte de dérailleur au laser (DAG-3 à ±0,05 mm) et je prépare le boîtier PressFit avec de la pâte carbone anti-friction.',
+        cta: 'Étape 02 : Suspension Kashima & Cockpit',
+        toolCode: 'PARK TOOL DAG-3',
+        torqueSpec: '±0.05 mm',
+        rightCalloutTitle: 'Protocole Châssis & Géométrie Laser',
+        rightCalloutBody:
+          'Un vélo qui gagne se construit sur un cadre parfaitement aligné, sans jeu ni contrainte mécanique.',
+        expertChecklist: [
+          'Alignement laser patte de dérailleur (Park Tool DAG-3)',
+          'Nettoyage & surfaçage boîtier PressFit BB92 + jeu de direction',
+          'Inspection des roulements de biellette carbone & pâte Park Tool',
+        ],
+      },
+      {
+        stepNumber: '02',
+        pillLabel: 'SUSPENSION',
+        kicker: 'ÉTAPE 02/05 · FOURCHE FOX 34 KASHIMA, AMORTISSEUR & COCKPIT',
+        backdropWord: 'KASHIMA',
+        title: 'SERVICE SUSPENSION FOX KASHIMA & POSTE DE PILOTAGE.',
+        description:
+          'La fourche Fox 34 Kashima, l’amortisseur Fox Float, la tige de selle télescopique et le cintre carbone viennent se verrouiller sur le cadre. Nous remplaçons les joints racleurs SKF, renouvelons l’huile Fox 20wt Gold et réglons le SAG au poids exact du coureur.',
+        cta: 'Étape 03 : Pédalier & Cassette Or',
+        toolCode: 'FOX 20WT GOLD · TW-5.2',
+        torqueSpec: '5.2 Nm',
+        rightCalloutTitle: 'Entretien Fourche, Amortisseur & Direction',
+        rightCalloutBody:
+          'Serrage dynamométrique précis de la potence (5.2 Nm) et lubrification basse friction des plongeurs Kashima.',
+        expertChecklist: [
+          'Vidange huile Fox 20wt Gold & remplacement joints racleurs SKF',
+          'Calibration pression d’air (SAG) & détente hydraulique sur-mesure',
+          'Serrage cockpit carbone & tige télescopique à 5.2 Nm certifiés',
+        ],
+      },
+      {
+        stepNumber: '03',
+        pillLabel: 'TRANSMISSION',
+        kicker: 'ÉTAPE 03/05 · PÉDALIER SRAM XX, CASSETTE OR 12V & DÉRAILLEUR',
+        backdropWord: 'COUPLE',
+        title: 'CALIBRATION PÉDALIER SRAM XX, CASSETTE OR & DÉRAILLEUR.',
+        description:
+          'Nous pressons les roulements céramiques, montons le pédalier carbone SRAM XX à 54 Nm, verrouillons la cassette 12 vitesses Or à 40 Nm et réglons le dérailleur arrière bleu anodisé au dixième de millimètre.',
+        cta: 'Étape 04 : Chaîne Or & Freins',
+        toolCode: 'SRAM XX · 10-52T GOLD',
+        torqueSpec: '40.0 / 54.0 Nm',
+        rightCalloutTitle: 'Transmission Céramique & Couple Certifié',
+        rightCalloutBody:
+          'Zéro perte de watts : alignement parfait des galets céramiques et serrage au couple constructeur.',
+        expertChecklist: [
+          'Pressage roulements céramiques & serrage pédalier SRAM XX (54 Nm)',
+          'Verrouillage cassette 12v Or 10-52T à la clé dynamométrique (40 Nm)',
+          'Réglage vis de butée H/L, B-Gap et indexation micro-précise',
+        ],
+      },
+      {
+        stepNumber: '04',
+        pillLabel: 'CHAÎNE & FREINS',
+        kicker: 'ÉTAPE 04/05 · DÉGRAISSAGE ULTRASON CHAÎNE OR & PURGE FREINS',
+        backdropWord: 'ULTRASONS',
+        title: 'CHAÎNE OR DÉGRAISSÉE AUX ULTRASONS & FREINS HYDRAULIQUES.',
+        description:
+          'Nous mesurons l’usure de la chaîne (et en installons une neuve si nécessaire). La chaîne Or passe au bain à ultrasons pour un dégraissage intégral, puis reçoit une huile céramique ou cire course maillon par maillon, pendant que nous purgeons les freins à disque 180/160 mm.',
+        cta: 'Étape 05 : Roues Zipp & Tubeless',
+        toolCode: 'ULTRASONIC BATH · CC-4',
+        torqueSpec: '6.2 Nm Disques',
+        rightCalloutTitle: 'Dégraissage Ultrason, Lubrification & Purge',
+        rightCalloutBody:
+          'Une chaîne dégraissée à cœur puis lubrifiée au millimètre économise jusqu’à 5 watts et protège votre cassette Or.',
+        expertChecklist: [
+          'Contrôle d’usure Park Tool CC-4 & pose chaîne 12v Or neuve si usée',
+          'Nettoyage + dégraissage intégral aux ultrasons & huile/cire céramique',
+          'Dévoilage disques 180/160 mm & purge hydraulique zéro bulle',
+        ],
+      },
+      {
+        stepNumber: '05',
+        pillLabel: 'ROUES & PODIUM',
+        kicker: 'ÉTAPE 05/05 · ROUES ZIPP CARBONE, TUBELESS MAXXIS & FINITION',
+        backdropWord: 'PODIUM',
+        title: 'ROUES ZIPP CARBONE, PRÉVENTIF TUBELESS MAXXIS & PRÊT À GAGNER.',
+        description:
+          'Les roues carbone Zipp chaussées de pneus Maxxis skinwall s’assemblent sur les axes. Nous dévoilons les jantes au tensiomètre, réparons le pneu si besoin, injectons 60 ml de liquide préventif tubeless neuf et ajustons la pression de course : le vélo Velo Reglo est prêt pour la victoire.',
+        cta: 'Voir les 10 Médailles & 3 Coupes du Champion',
+        toolCode: 'ZIPP 303S · TUBELESS',
+        torqueSpec: '1.4 / 1.6 BAR',
+        rightCalloutTitle: 'Montage Tubeless Pro & Équilibrage Roues',
+        rightCalloutBody:
+          'Étanchéité garantie et rendement maximal sur terrain XCO grâce au préventif tubeless frais et aux rayons équilibrés.',
+        expertChecklist: [
+          'Dévoilage & équilibrage tension des rayons sur roues Zipp carbone',
+          'Réparation pneu, pose fond de jante & injection 60 ml liquide tubeless',
+          'Mise en pression course (1.4 bar AV / 1.6 bar AR) & contrôle final',
+        ],
+      },
+    ],
     trophyTransition: {
-      number: '04',
+      number: '06',
       pillLabel: 'TROPHÉES',
       kicker: 'DU VÉLO DE COURSE AU PALMARÈS DU CHAMPION',
       backdropWord: 'CHAMPION',
@@ -671,49 +593,115 @@ export const UI_COPY: Record<Language, LocalizedContent> = {
   },
   tn: {
     nav: {
-      process: 'كيفاش نخدمو',
+      process: 'مراحل Montage',
       champion: 'البطل ماهر',
       reels: 'خدمة Atelier',
       bookCta: 'خوذ موعد عالواتساب',
-      assetStudio: 'Studio Assets IA',
     },
-    stage1: {
-      number: '01',
-      kicker: 'مراقبة CADRE CARBONE على SUPPORT PARK TOOL الأزرق',
-      backdropWord: 'CADRE',
-      title: 'الخدمة الصحيحة تبدا من CADRE CARBONE\u200F.',
-      description:
-        'كل vélo يجينا للورشة — سواء vélo de course carbone\u200F، أو VTT XCO\u200F، أو gravel\u200F، ولّا vélo électrique — يركب على support Park Tool الأزرق باش نثبّتو في cadre و roulements بالمليمتر.',
-      cta: 'تبّع مرحلة Mécanique',
-      rightCalloutTitle: 'مراقبة Géométrie و Roulements',
-      rightCalloutBody:
-        'نعدّلو patte de dérailleur باللازر ونراقبو cadre carbone و boîtier قبل ما نحلّو vélo قطعة بقطعة.',
-      handoffLabel: 'CHAÎNE المذهّبة تهبط لمرحلة MÉCANIQUE ↓',
-    },
-    stage2: {
-      number: '02',
-      kicker: 'تعديل TRANSMISSION و ULTRASONS و MOTEUR VÉLO ÉLECTRIQUE',
-      backdropWord: 'MÉCANIQUE',
-      title: 'الصنعة الدقيقة في TRANSMISSION و MOTEUR\u200F.',
-      description:
-        'Chaîne تركب على cassette المغسولة بـ ultrasons\u200F. نصيّنو moteurs متاع vélo électrique Bosch و Shimano\u200F، نبدّلو roulements céramiques ونكبسو كل vis بـ clé dynamométrique\u200F.',
-      cta: 'شوف Vélo حاضر للـ Podium',
-      rightCalloutTitle: 'تكبيس بـ Clé Dynamométrique وغسيل Ultrasons',
-      rightCalloutBody:
-        'خدمة نظيفة بلاش تخمين: كل vis titane ولّا carbone يتكبس بـ clé dynamométrique متاع Park Tool\u200F.',
-      handoffLabel: 'تجميع VÉLO DE COURSE الكامل ↓',
-    },
-    stage3: {
-      number: '03',
-      kicker: 'تحضير السباق · #VELO_REGLO_BIEN_REGLO',
-      backdropWord: 'PODIUM',
-      title: 'VÉLO متاعك حاضر للـ PODIUM ومريڤل.',
-      description:
-        'كي يخرج vélo متاعك من يدين بطل تونس 10 مرات\u200F، كل ضغطة على pédale تولّي خفيفة\u200F، سريعة\u200F، وبلاش حتى حس ولّا friction في الطريق.',
-      cta: 'خوذ موعد عالواتساب توّا',
-    },
+    assemblySteps: [
+      {
+        stepNumber: '01',
+        pillLabel: 'CADRE',
+        kicker: 'المرحلة 01/05 · CADRE CARBONE على SUPPORT PARK TOOL الأزرق',
+        backdropWord: 'CADRE',
+        title: 'الخدمة الصحيحة تبدا من CADRE CARBONE VELO REGLO\u200F.',
+        description:
+          'أوّل حاجة نركّبو cadre carbone على support Park Tool الأزرق\u200F. نثبّتو في سلامة الكربون\u200F، نعدّلو patte de dérailleur باللازر (آلة DAG-3 بدقة 0.05 مم) ونحضّرو boîtier PressFit بـ pâte carbone الأصلية.',
+        cta: 'المرحلة 02 : Suspension Kashima و Cockpit',
+        toolCode: 'PARK TOOL DAG-3',
+        torqueSpec: '±0.05 mm',
+        rightCalloutTitle: 'مراقبة Cadre Carbone و Géométrie باللازر',
+        rightCalloutBody:
+          'Vélo اللي يربح السباق يتبنى على cadre مريڤل بالمليمتر بلاش حتى jeu في roulements\u200F.',
+        expertChecklist: [
+          'تعديل patte de dérailleur باللازر بآلة Park Tool DAG-3',
+          'تنظيف وتعديل boîtier PressFit BB92 و jeu de direction',
+          'مراقبة roulements متاع biellette carbone وتحضير pâte Park Tool',
+        ],
+      },
+      {
+        stepNumber: '02',
+        pillLabel: 'SUSPENSION',
+        kicker: 'المرحلة 02/05 · FOURCHE FOX 34 KASHIMA و AMORTISSEUR و COCKPIT',
+        backdropWord: 'KASHIMA',
+        title: 'تركيب وصيانة FOURCHE FOX KASHIMA و COCKPIT CARBONE\u200F.',
+        description:
+          'توّا تركب fourche Fox 34 Kashima\u200F، ومعاها amortisseur Fox Float و tige de selle Kashima و guidon carbone على نفس cadre\u200F. نبدّلو joints racleurs SKF\u200F، نجدّدو زيت Fox 20wt Gold ونريڤلو ضغط الهواء (SAG) على ميزانك.',
+        cta: 'المرحلة 03 : Pédalier و Cassette Or',
+        toolCode: 'FOX 20WT GOLD · TW-5.2',
+        torqueSpec: '5.2 Nm',
+        rightCalloutTitle: 'صيانة Fourche و Amortisseur وتكبيس Cockpit',
+        rightCalloutBody:
+          'نكبسو potence و guidon carbone بـ clé dynamométrique على 5.2 Nm باش تضمن أمان وخفّة في التوجيه.',
+        expertChecklist: [
+          'تبديل زيت Fox 20wt Gold وتركيب joints racleurs SKF جدد',
+          'Réglage ضغط الهواء (SAG) و rebond متاع fourche و amortisseur',
+          'تكبيس cockpit carbone و tige de selle بـ clé dynamométrique (5.2 Nm)',
+        ],
+      },
+      {
+        stepNumber: '03',
+        pillLabel: 'TRANSMISSION',
+        kicker: 'المرحلة 03/05 · PÉDALIER SRAM XX و CASSETTE OR 12V و DÉRAILLEUR',
+        backdropWord: 'TRANSMISSION',
+        title: 'تركيب PÉDALIER SRAM XX و CASSETTE المذهّبة و DÉRAILLEUR\u200F.',
+        description:
+          'نشحّمو ونركّبو roulements céramiques في boîtier\u200F، نكبسو pédalier carbone SRAM XX على 54 Nm\u200F، ونركّبو cassette 12v المذهّبة على 40 Nm مع dérailleur الأزرق بـ galets céramiques مضبوطين بالمليمتر.',
+        cta: 'المرحلة 04 : Chaîne Or و Freins',
+        toolCode: 'SRAM XX · 10-52T GOLD',
+        torqueSpec: '40.0 / 54.0 Nm',
+        rightCalloutTitle: 'تعديل Transmission و Couple Dynamométrique',
+        rightCalloutBody:
+          'تبديل vitesses خفيف وسريع بلاش ضياع طاقة بفضل roulements céramiques وتكبيس مضبوط.',
+        expertChecklist: [
+          'تركيب وتشحيم roulements céramiques وتكبيس pédalier SRAM XX (54 Nm)',
+          'تثبيت cassette 12v Gold 10-52T بـ clé dynamométrique (40 Nm)',
+          'Réglage دقيق متاع vis H/L و B-Gap باش vitesses يتعدّاو كي الساعة',
+        ],
+      },
+      {
+        stepNumber: '04',
+        pillLabel: 'CHAÎNE & FREINS',
+        kicker: 'المرحلة 04/05 · DÉGRAISSAGE CHAÎNE OR بـ ULTRASONS و PURGE FREINS',
+        backdropWord: 'ULTRASONS',
+        title: 'تنظيف و DÉGRAISSAGE CHAÎNE المذهّبة و PURGE FREINS\u200F.',
+        description:
+          'نقيسو عمر chaîne بآلة CC-4 (ونركّبو chaîne جديدة كان لزم). نعملولها dégraissage وتنظيف عميق في حوض ultrasons\u200F، ومن بعد نزيتوها بـ huile céramique أو cire خاصة للسباق كعبة بكعبة\u200F، مع purge كاملة لـ freins hydrauliques و disques\u200F.',
+        cta: 'المرحلة 05 : Roues Zipp و Tubeless',
+        toolCode: 'ULTRASONIC BATH · CC-4',
+        torqueSpec: '6.2 Nm Disques',
+        rightCalloutTitle: 'Dégraissage Ultrason و Huile Céramique و Purge',
+        rightCalloutBody:
+          'Chaîne نظيفة ومزيّتة بـ huile céramique تحمي cassette المذهّبة وتعطيك سرعة أكبر بلاش حس.',
+        expertChecklist: [
+          'قيس chaîne بآلة Park Tool CC-4 وتبديل chaîne 12v Gold جديدة كان تشتّت',
+          'غسيل و dégraissage في حوض ultrasons وتزييت بـ huile/cire céramique',
+          'تعديل disques 180/160 mm وعملان purge hydraulique بلاش فقاعات هواء',
+        ],
+      },
+      {
+        stepNumber: '05',
+        pillLabel: 'ROUES & PODIUM',
+        kicker: 'المرحلة 05/05 · ROUES ZIPP CARBONE و TUBELESS MAXXIS حاضر للسباق',
+        backdropWord: 'PODIUM',
+        title: 'تركيب ROUES ZIPP CARBONE و تعمير TUBELESS MAXXIS للـ PODIUM\u200F.',
+        description:
+          'في المرحلة هذي يركبو roues carbone Zipp مع pneus Maxxis\u200F. نعدّلو العجالي عالميزان\u200F، نصلّحو pneu كان فيه نقبة\u200F، نبدّلو fond de jante ونعمّرو 60 مل liquide préventif tubeless جديد باش يسكر أي شوكة في الحين — وهكّا يولّي vélo Velo Reglo حاضر للسباق والربح!',
+        cta: 'شوف 10 ميداليات ذهب و 3 كؤوس متاع البطل',
+        toolCode: 'ZIPP 303S · TUBELESS',
+        torqueSpec: '1.4 / 1.6 BAR',
+        rightCalloutTitle: 'تعمير Liquide Tubeless وتعديل Roues Carbone',
+        rightCalloutBody:
+          'عجالي Zipp مريڤلين بـ tensiomètre ومعبّين بـ liquide préventif tubeless جديد لسباق مضمون 100%.',
+        expertChecklist: [
+          'تعديل dévoilage وميزان rayons متاع roues Zipp carbone بـ tensiomètre',
+          'تصليح pneus Maxxis وتعمير 60 ml liquide préventif tubeless جديد',
+          'ضبط ضغط الهواء للسباق (1.4 bar قدّام / 1.6 bar تالي) ومراقبة نهائية',
+        ],
+      },
+    ],
     trophyTransition: {
-      number: '04',
+      number: '06',
       pillLabel: 'تتويجات',
       kicker: 'من VÉLO DE COURSE لتتويجات البطل ماهر هبورية',
       backdropWord: 'CHAMPION',
@@ -770,49 +758,115 @@ export const UI_COPY: Record<Language, LocalizedContent> = {
   },
   en: {
     nav: {
-      process: 'The Process',
+      process: 'The Build',
       champion: 'The Champion',
       reels: 'Workshop Builds',
       bookCta: 'Book on WhatsApp',
-      assetStudio: 'AI Asset Studio',
     },
-    stage1: {
-      number: '01',
-      kicker: 'CHASSIS DIAGNOSTICS ON BLUE PARK TOOL STAND',
-      backdropWord: 'FRAME',
-      title: 'PRECISION STARTS AT THE CARBON FRAME.',
-      description:
-        'Every bicycle — Aero Road, XCO Mountain, Gravel, or E-Bike — is mounted on our blue Park Tool stand for sub-millimeter geometric and bearing inspection.',
-      cta: 'Follow the drivetrain flow',
-      rightCalloutTitle: 'Geometric & Bearing Inspection',
-      rightCalloutBody:
-        'Laser derailleur hanger alignment, carbon layup seat inspection, and full pre-teardown telemetry.',
-      handoffLabel: 'GOLD CHAIN DESCENDS INTO THE DRIVETRAIN ↓',
-    },
-    stage2: {
-      number: '02',
-      kicker: 'ULTRASONIC DRIVETRAIN & E-BIKE MOTOR CALIBRATION',
-      backdropWord: 'MECHANICS',
-      title: 'THE ALCHEMY OF TORQUE & GEARING.',
-      description:
-        'The chain locks onto the ultrasonically cleaned cassette. Bosch/Shimano e-bike motor rebuilds, ceramic bearings, and certified torque wrench calibration.',
-      cta: 'See the Podium Finish',
-      rightCalloutTitle: 'Torque Calibration & Ultrasonic Bath',
-      rightCalloutBody:
-        'Zero guesswork: every titanium bolt and cassette lockring is torqued to exact factory specification.',
-      handoffLabel: 'FINAL ASSEMBLY INTO THE RACE SUPERBIKE ↓',
-    },
-    stage3: {
-      number: '03',
-      kicker: 'RACE FINISH · #VELO_REGLO_BIEN_REGLO',
-      backdropWord: 'PODIUM',
-      title: 'PODIUM READY. BIEN RÉGLO.',
-      description:
-        'When your machine is tuned by a 10× Tunisian National Champion, every watt you push translates into silent, frictionless speed.',
-      cta: 'Book Directly on WhatsApp',
-    },
+    assemblySteps: [
+      {
+        stepNumber: '01',
+        pillLabel: 'FRAME',
+        kicker: 'STEP 01/05 · CARBON CHASSIS ON BLUE PARK TOOL STAND',
+        backdropWord: 'FRAME',
+        title: 'IT STARTS WITH THE BARE VELO REGLO CARBON FRAME.',
+        description:
+          'We clamp the bare Velo Reglo carbon frame onto our blue Park Tool stand. As a master mechanic, I inspect the carbon layup, laser-align the rear derailleur hanger (DAG-3 to ±0.05 mm), and prep the PressFit bottom bracket shell with Park Tool carbon compound.',
+        cta: 'Step 02: Kashima Suspension & Cockpit',
+        toolCode: 'PARK TOOL DAG-3',
+        torqueSpec: '±0.05 mm',
+        rightCalloutTitle: 'Chassis Prep & Laser Geometry Check',
+        rightCalloutBody:
+          'A race-winning bike requires a dead-straight hanger and perfectly faced bearing seats before a single bolt is turned.',
+        expertChecklist: [
+          'Laser derailleur hanger alignment (Park Tool DAG-3 to ±0.05 mm)',
+          'PressFit BB92 & tapered headtube cleaning and bearing seat prep',
+          'Carbon rocker link pivot bearing inspection & anti-seize paste',
+        ],
+      },
+      {
+        stepNumber: '02',
+        pillLabel: 'SUSPENSION',
+        kicker: 'STEP 02/05 · FOX 34 KASHIMA FORK, FLOAT SHOCK & COCKPIT',
+        backdropWord: 'KASHIMA',
+        title: 'FOX KASHIMA SUSPENSION SERVICE & CARBON COCKPIT.',
+        description:
+          'The Fox 34 Kashima fork, Fox Float rear shock, Kashima dropper seatpost, and carbon handlebar lock onto the frame. We replace the SKF dust wiper seals, refill fresh Fox 20wt Gold bath oil, set rider-specific SAG pressure, and torque the stem to 5.2 Nm.',
+        cta: 'Step 03: Crankset & Gold Cassette',
+        toolCode: 'FOX 20WT GOLD · TW-5.2',
+        torqueSpec: '5.2 Nm',
+        rightCalloutTitle: 'Kashima Suspension & Cockpit Torque',
+        rightCalloutBody:
+          'Plush small-bump sensitivity and razor-sharp steering with every carbon bolt torqued to exact factory specification.',
+        expertChecklist: [
+          'Fox 20wt Gold lower-leg oil service & new SKF low-friction seals',
+          'Custom air spring SAG pressure & hydraulic rebound calibration',
+          'Carbon handlebar stem & Kashima dropper post torqued to 5.2 Nm',
+        ],
+      },
+      {
+        stepNumber: '03',
+        pillLabel: 'DRIVETRAIN',
+        kicker: 'STEP 03/05 · SRAM XX CRANKSET, 12S GOLD CASSETTE & DERAILLEUR',
+        backdropWord: 'TORQUE',
+        title: 'SRAM XX CRANKSET, 24K GOLD CASSETTE & CERAMIC DERAILLEUR.',
+        description:
+          'We press and lubricate the ceramic bottom bracket bearings, torque the SRAM XX carbon crankset to 54 Nm, lock the 12-speed 24K Gold 10-52T cassette at 40 Nm, and bolt on the blue anodized ceramic-pulley rear derailleur.',
+        cta: 'Step 04: Gold Chain & Disc Brakes',
+        toolCode: 'SRAM XX · 10-52T GOLD',
+        torqueSpec: '40.0 / 54.0 Nm',
+        rightCalloutTitle: 'Ceramic Drivetrain & Certified Torque',
+        rightCalloutBody:
+          'Zero wasted watts: ceramic pulley alignment and digital torque wrench verification on every drivetrain thread.',
+        expertChecklist: [
+          'Ceramic bottom bracket bearing press & SRAM XX crank torque (54 Nm)',
+          '12-speed 10-52T Gold cassette locked with torque wrench (40 Nm)',
+          'H/L limit screws, B-gap gauge, and micro-adjust shift indexing',
+        ],
+      },
+      {
+        stepNumber: '04',
+        pillLabel: 'CHAIN & BRAKES',
+        kicker: 'STEP 04/05 · ULTRASONIC GOLD CHAIN DEGREASE & DISC BRAKE BLEED',
+        backdropWord: 'ULTRASONIC',
+        title: 'ULTRASONIC CHAIN DEGREASING, CERAMIC OIL & DISC BRAKES.',
+        description:
+          'We check chain stretch with the Park Tool CC-4 gauge (and install a brand-new 24K Gold chain if worn). We deep-clean and degrease the chain in our heated ultrasonic bath, apply pro ceramic oil or race wax link by link, and bleed the 180/160 mm hydraulic disc brakes.',
+        cta: 'Step 05: Zipp Wheels & Tubeless Setup',
+        toolCode: 'ULTRASONIC BATH · CC-4',
+        torqueSpec: '6.2 Nm Rotors',
+        rightCalloutTitle: 'Ultrasonic Degreasing, Pro Lube & Bleed',
+        rightCalloutBody:
+          'Stripping factory grease in an ultrasonic bath and applying ceramic lube link by link saves watts and extends cassette life.',
+        expertChecklist: [
+          'Park Tool CC-4 wear check & new 12s Gold chain setup if stretched',
+          'Full ultrasonic degreasing bath + link-by-link ceramic oil / wax',
+          '180/160 mm rotor truing & bubble-free hydraulic brake bleed',
+        ],
+      },
+      {
+        stepNumber: '05',
+        pillLabel: 'WHEELS & PODIUM',
+        kicker: 'STEP 05/05 · ZIPP CARBON WHEELS, MAXXIS TUBELESS & RACE READY',
+        backdropWord: 'PODIUM',
+        title: 'ZIPP CARBON WHEELS, MAXXIS TUBELESS SEALANT & RACE READY.',
+        description:
+          'The Zipp carbon wheelset wrapped in Maxxis tan-wall tires locks onto the axles. We true the wheels on the tensiometer stand, repair any tire punctures, fill 60 ml of fresh tubeless sealant liquid per wheel, and dial in race tire pressure — ready to start the race and win.',
+        cta: 'See the Champion’s 10 Medals & 3 Cups',
+        toolCode: 'ZIPP 303S · TUBELESS',
+        torqueSpec: '1.4 / 1.6 BAR',
+        rightCalloutTitle: 'Tubeless Sealant Fill & Wheel Truing',
+        rightCalloutBody:
+          'Fresh tubeless liquid seals thorns instantly on the course while balanced Zipp carbon spoke tension delivers maximum speed.',
+        expertChecklist: [
+          'Lateral & radial wheel truing + Park Tool TM-1 spoke tension balance',
+          'Tire inspection/repair, rim tape & 60 ml fresh tubeless liquid fill',
+          'Race tire pressure setup (1.4 bar Front / 1.6 bar Rear) & final check',
+        ],
+      },
+    ],
     trophyTransition: {
-      number: '04',
+      number: '06',
       pillLabel: 'TROPHIES',
       kicker: 'FROM RACE SUPERBIKE TO CHAMPIONSHIP GOLD',
       backdropWord: 'CHAMPION',
@@ -871,7 +925,7 @@ export const UI_COPY: Record<Language, LocalizedContent> = {
 
 export interface ScrollyMetrics {
   clampedProgress: number;
-  activeStage: 1 | 2 | 3 | 4;
+  activeStage: AssemblyStageIndex;
   stageLocalProgress: number;
   chainDropOffsetPx: number;
   cassetteRotationDeg: number;
@@ -880,8 +934,13 @@ export interface ScrollyMetrics {
 }
 
 /**
- * Pure helper that maps overall scroll progress [0..1] across the 4-stage scrollytelling container
- * (01 Cadre -> 02 Mécanique -> 03 Podium Bike -> 04 10 Gold Medals & 3 Gold Cups Champion Handoff)
+ * Pure helper that maps overall scroll progress [0..1] across the 6-stage progressive assembly runway:
+ * - Stage 1 (0.00..0.16): Bare Velo Reglo Carbon Frame on Blue Park Tool Stand + Laser Alignment
+ * - Stage 2 (0.16..0.33): Fox 34 Kashima Fork, Fox Float Shock, Kashima Seatpost & Carbon Cockpit
+ * - Stage 3 (0.33..0.50): Ceramic BB, SRAM XX Crankset, 24K Gold 12s Cassette & Blue Derailleur
+ * - Stage 4 (0.50..0.67): 24K Gold Chain (Ultrasonic Degreased & Lubed) & Hydraulic Disc Rotors
+ * - Stage 5 (0.67..0.84): Zipp Carbon Wheels, Maxxis Tubeless Sealant & Complete Race-Ready Superbike
+ * - Stage 6 (0.84..1.00): Transformation into 10 Gold Medals & 3 Gold Cups Introducing Champion Maher Habouria
  */
 export function computeScrollyMetrics(rawProgress: number): ScrollyMetrics {
   const clampedProgress = Math.max(
@@ -889,21 +948,27 @@ export function computeScrollyMetrics(rawProgress: number): ScrollyMetrics {
     Math.min(1, Number.isFinite(rawProgress) ? rawProgress : 0)
   );
 
-  let activeStage: 1 | 2 | 3 | 4 = 1;
+  let activeStage: AssemblyStageIndex = 1;
   let stageLocalProgress = 0;
 
-  if (clampedProgress < 0.28) {
+  if (clampedProgress < 0.16) {
     activeStage = 1;
-    stageLocalProgress = clampedProgress / 0.28;
-  } else if (clampedProgress < 0.56) {
+    stageLocalProgress = clampedProgress / 0.16;
+  } else if (clampedProgress < 0.33) {
     activeStage = 2;
-    stageLocalProgress = (clampedProgress - 0.28) / 0.28;
-  } else if (clampedProgress < 0.80) {
+    stageLocalProgress = (clampedProgress - 0.16) / 0.17;
+  } else if (clampedProgress < 0.50) {
     activeStage = 3;
-    stageLocalProgress = (clampedProgress - 0.56) / 0.24;
-  } else {
+    stageLocalProgress = (clampedProgress - 0.33) / 0.17;
+  } else if (clampedProgress < 0.67) {
     activeStage = 4;
-    stageLocalProgress = (clampedProgress - 0.80) / 0.20;
+    stageLocalProgress = (clampedProgress - 0.50) / 0.17;
+  } else if (clampedProgress < 0.84) {
+    activeStage = 5;
+    stageLocalProgress = (clampedProgress - 0.67) / 0.17;
+  } else {
+    activeStage = 6;
+    stageLocalProgress = (clampedProgress - 0.84) / 0.16;
   }
 
   const chainDropOffsetPx = Math.round(clampedProgress * 420);
@@ -911,12 +976,12 @@ export function computeScrollyMetrics(rawProgress: number): ScrollyMetrics {
   const superbikeScale = Number(
     (
       0.92 +
-      Math.min(1, Math.max(0, (clampedProgress - 0.5) / 0.3)) * 0.08
+      Math.min(1, Math.max(0, (clampedProgress - 0.6) / 0.24)) * 0.08
     ).toFixed(3)
   );
 
   const trophyMorphProgress = Number(
-    Math.max(0, Math.min(1, (clampedProgress - 0.75) / 0.22)).toFixed(3)
+    Math.max(0, Math.min(1, (clampedProgress - 0.82) / 0.15)).toFixed(3)
   );
 
   return {

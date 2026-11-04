@@ -3,47 +3,30 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MessageCircle } from 'lucide-react';
-import { AssetStudioModal } from './components/AssetStudioModal';
 import { ChampionAtelierSection } from './components/ChampionAtelierSection';
-import {
-  CustomAssetOverrides,
-  ScrollytellingStage,
-} from './components/ScrollytellingStage';
+import { ScrollytellingStage } from './components/ScrollytellingStage';
 import { VeloRegloEmblem } from './components/VeloRegloLogo';
 import { DIRECT_WHATSAPP_URL, Language, UI_COPY } from './utils/i18n';
 
-export const DEFAULT_STUDIO_ASSETS: CustomAssetOverrides = {
-  stage1_frame:
-    '/assets/aistudio/Carbon_Fiber_Bike_Frame_on_Blue_Repair_Stand_cc783528.png',
-  stage1_falling_chain:
-    '/assets/aistudio/Blue_Ceramic-Bearing_Derailleur_with_Gold_Chain_092056e2.png',
-  stage2_drivetrain:
-    '/assets/aistudio/Exploded_Bosch_E-Bike_Drivetrain_Assembly_dce01453.png',
-  stage3_superbike:
-    '/assets/aistudio/Midnight_Carbon_XC_Bike_with_Cyan_Accents_2e4954e9.png',
-  floating_components:
-    '/assets/aistudio/Premium_Bicycle_Workshop_Components_004154dc.png',
-};
+function getInitialLanguage(): Language {
+  if (typeof window !== 'undefined') {
+    const param = new URLSearchParams(window.location.search).get('lang');
+    if (param === 'fr' || param === 'tn' || param === 'en') {
+      return param;
+    }
+  }
+  return 'fr';
+}
 
 export default function App() {
-  const [lang, setLang] = useState<Language>('fr');
-  const [isAssetStudioOpen, setIsAssetStudioOpen] = useState<boolean>(false);
-  const [assetOverrides, setAssetOverrides] =
-    useState<CustomAssetOverrides>(DEFAULT_STUDIO_ASSETS);
-
+  const [lang, setLang] = useState<Language>(getInitialLanguage);
   const copy = UI_COPY[lang];
 
-  const handleUpdateAssetOverride = (
-    key: keyof CustomAssetOverrides,
-    url: string | undefined
-  ) => {
-    setAssetOverrides((prev) => ({
-      ...prev,
-      [key]: url ?? DEFAULT_STUDIO_ASSETS[key],
-    }));
-  };
+  useEffect(() => {
+    document.documentElement.lang = lang === 'tn' ? 'ar-TN' : lang;
+  }, [lang]);
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F4F6F9] text-[#0A1120]">
@@ -62,7 +45,7 @@ export default function App() {
         <nav
           dir={lang === 'tn' ? 'rtl' : 'ltr'}
           aria-label="Navigation principale"
-          className="hidden md:flex items-center gap-7 text-sm font-medium text-[#475569]"
+          className="hidden md:flex items-center gap-7 text-sm font-bold text-[#334155]"
         >
           <a
             href="#process"
@@ -89,7 +72,7 @@ export default function App() {
           <div
             role="group"
             aria-label="Langue mobile"
-            className="md:hidden inline-flex items-center gap-0.5 p-0.5 bg-[#0A1120]/8 rounded-lg"
+            className="md:hidden inline-flex items-center gap-0.5 p-0.5 bg-[#0A1120]/10 rounded-lg"
           >
             {(
               [
@@ -105,7 +88,7 @@ export default function App() {
                 className={`px-2 py-1 text-[10px] font-mono font-bold uppercase rounded-md transition-colors cursor-pointer ${
                   lang === item.code
                     ? 'bg-[#0073CF] text-white'
-                    : 'text-[#0A1120]/70'
+                    : 'text-[#0A1120]'
                 }`}
               >
                 {item.label}
@@ -135,13 +118,8 @@ export default function App() {
 
       {/* Main Content */}
       <main className="flex-1">
-        {/* Connected 3-Stage Scrollytelling Engine (01 Cadre -> 02 Mécanique -> 03 Podium) */}
-        <ScrollytellingStage
-          lang={lang}
-          onChangeLang={setLang}
-          onOpenAssetStudio={() => setIsAssetStudioOpen(true)}
-          assetOverrides={assetOverrides}
-        />
+        {/* Connected 6-Step Progressive Bike Assembly & Trophy Transformation Engine */}
+        <ScrollytellingStage lang={lang} onChangeLang={setLang} />
 
         {/* Maher Habouria Champion Pedigree, Uncropped Workshop Reels & Direct WhatsApp Booking */}
         <ChampionAtelierSection lang={lang} />
@@ -150,7 +128,7 @@ export default function App() {
       {/* Quiet Editorial Footer */}
       <footer
         dir={lang === 'tn' ? 'rtl' : 'ltr'}
-        className="bg-[#0A1120] text-slate-400 border-t border-white/10 py-10 px-4 sm:px-8"
+        className="bg-[#0A1120] text-slate-300 border-t border-white/15 py-10 px-4 sm:px-8"
       >
         <div className="max-w-[1280px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 text-xs">
           <div className="flex items-center gap-3">
@@ -180,29 +158,13 @@ export default function App() {
               href={DIRECT_WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#25D366] hover:underline font-medium"
+              className="text-[#25D366] hover:underline font-bold"
             >
               {copy.nav.bookCta}
             </a>
-            <button
-              type="button"
-              onClick={() => setIsAssetStudioOpen(true)}
-              className="text-[#00A8E8] hover:underline cursor-pointer"
-            >
-              {copy.nav.assetStudio}
-            </button>
           </div>
         </div>
       </footer>
-
-      {/* Custom Asset Studio & Prompt Kit Modal */}
-      <AssetStudioModal
-        isOpen={isAssetStudioOpen}
-        onClose={() => setIsAssetStudioOpen(false)}
-        lang={lang}
-        assetOverrides={assetOverrides}
-        onUpdateAssetOverride={handleUpdateAssetOverride}
-      />
     </div>
   );
 }

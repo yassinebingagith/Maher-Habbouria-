@@ -1,4 +1,4 @@
-import React, { useId, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Award,
   CheckCircle2,
@@ -16,51 +16,6 @@ import {
   WORKSHOP_REELS,
   WorkshopReelItem,
 } from '../utils/i18n';
-
-interface ClippedSheetImageProps {
-  src: string;
-  crop: string;
-  alt: string;
-  className?: string;
-}
-
-/**
- * Renders an exact sub-rectangle `crop="x y w h"` from a 1920x1080 sheet
- * with a hard SVG <clipPath> so neighboring grid rows can never bleed in,
- * and `preserveAspectRatio="xMidYMid meet"` so 100% of the picture is in frame.
- */
-const ClippedSheetImage: React.FC<ClippedSheetImageProps> = ({
-  src,
-  crop,
-  alt,
-  className = 'w-full h-full block',
-}) => {
-  const rawId = useId();
-  const clipId = `sheet-clip-${rawId.replace(/[^a-zA-Z0-9_-]/g, '')}`;
-  const [cx, cy, cw, ch] = crop.split(' ').map(Number);
-
-  return (
-    <svg
-      viewBox={crop}
-      preserveAspectRatio="xMidYMid meet"
-      className={className}
-      role="img"
-      aria-label={alt}
-    >
-      <defs>
-        <clipPath id={clipId}>
-          <rect x={cx} y={cy} width={cw} height={ch} />
-        </clipPath>
-      </defs>
-      <image
-        href={src}
-        width="1920"
-        height="1080"
-        clipPath={`url(#${clipId})`}
-      />
-    </svg>
-  );
-};
 
 interface ChampionAtelierSectionProps {
   lang: Language;
@@ -105,7 +60,7 @@ export const ChampionAtelierSection: React.FC<ChampionAtelierSectionProps> = ({
           {/* Left 7 Columns: Editorial Biography & Quantified Championship Proof */}
           <div className="lg:col-span-7 flex flex-col justify-between space-y-8">
             <div className="space-y-4">
-              <div className="flex items-center gap-2 text-xs font-mono text-[#00A8E8] uppercase tracking-wider">
+              <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#38BDF8] uppercase tracking-wider">
                 <span>{copy.champion.kicker}</span>
               </div>
 
@@ -113,13 +68,13 @@ export const ChampionAtelierSection: React.FC<ChampionAtelierSectionProps> = ({
                 {copy.champion.headline}
               </h2>
 
-              <p className="text-slate-300 text-base leading-relaxed max-w-[64ch]">
+              <p className="text-slate-200 text-base leading-relaxed max-w-[64ch]">
                 {copy.champion.bio}
               </p>
             </div>
 
             {/* 4-Column Quantitative Proof Strip (Tabular Numerals, Unboxed Clean Dividers) */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-6 border-t border-white/12">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-6 border-t border-white/15">
               <div className="space-y-1">
                 <div
                   dir="ltr"
@@ -127,7 +82,7 @@ export const ChampionAtelierSection: React.FC<ChampionAtelierSectionProps> = ({
                 >
                   {copy.champion.stat1Value}
                 </div>
-                <div className="text-xs text-slate-300 leading-snug">
+                <div className="text-xs text-slate-200 leading-snug">
                   {copy.champion.stat1Label}
                 </div>
               </div>
@@ -135,11 +90,11 @@ export const ChampionAtelierSection: React.FC<ChampionAtelierSectionProps> = ({
               <div className="space-y-1">
                 <div
                   dir="ltr"
-                  className="font-display font-extrabold text-4xl text-[#00A8E8] tabular-nums inline-block"
+                  className="font-display font-extrabold text-4xl text-[#38BDF8] tabular-nums inline-block"
                 >
                   {copy.champion.stat2Value}
                 </div>
-                <div className="text-xs text-slate-300 leading-snug">
+                <div className="text-xs text-slate-200 leading-snug">
                   {copy.champion.stat2Label}
                 </div>
               </div>
@@ -151,7 +106,7 @@ export const ChampionAtelierSection: React.FC<ChampionAtelierSectionProps> = ({
                 >
                   {copy.champion.stat3Value}
                 </div>
-                <div className="text-xs text-slate-300 leading-snug">
+                <div className="text-xs text-slate-200 leading-snug">
                   {copy.champion.stat3Label}
                 </div>
               </div>
@@ -159,20 +114,20 @@ export const ChampionAtelierSection: React.FC<ChampionAtelierSectionProps> = ({
               <div className="space-y-1">
                 <div
                   dir="ltr"
-                  className="font-display font-extrabold text-4xl text-[#0073CF] tabular-nums inline-block"
+                  className="font-display font-extrabold text-4xl text-[#60A5FA] tabular-nums inline-block"
                 >
                   {copy.champion.stat4Value}
                 </div>
-                <div className="text-xs text-slate-300 leading-snug">
+                <div className="text-xs text-slate-200 leading-snug">
                   {copy.champion.stat4Label}
                 </div>
               </div>
             </div>
 
             {/* Regional & Workshop Location Bar */}
-            <div className="flex flex-wrap items-center gap-4 text-xs text-slate-300 pt-2">
+            <div className="flex flex-wrap items-center gap-4 text-xs text-slate-200 pt-2">
               <span className="inline-flex items-center gap-1.5 text-white font-medium">
-                <MapPin className="w-4 h-4 text-[#00A8E8]" aria-hidden="true" />
+                <MapPin className="w-4 h-4 text-[#38BDF8]" aria-hidden="true" />
                 {copy.champion.locationLabel}
               </span>
               <span aria-hidden="true">·</span>
@@ -183,7 +138,7 @@ export const ChampionAtelierSection: React.FC<ChampionAtelierSectionProps> = ({
               <span aria-hidden="true">·</span>
               <span className="inline-flex items-center gap-1.5">
                 <ShieldCheck
-                  className="w-4 h-4 text-[#0073CF]"
+                  className="w-4 h-4 text-[#38BDF8]"
                   aria-hidden="true"
                 />
                 Park Tool Master Wall
@@ -192,45 +147,52 @@ export const ChampionAtelierSection: React.FC<ChampionAtelierSectionProps> = ({
           </div>
 
           {/* Right 5 Columns: Real Workshop & Champion Photography Card (100% Uncropped Full Frame) */}
-          <div className="lg:col-span-5 flex flex-col justify-between bg-[#131F38] rounded-2xl border border-white/10 overflow-hidden shadow-xl">
-            {/* Full 1246x415 Cover Photo Container — 100% in frame with hard clipPath */}
+          <div className="lg:col-span-5 flex flex-col justify-between bg-[#131F38] rounded-2xl border border-white/15 overflow-hidden shadow-xl">
             <div className="relative w-full aspect-[1246/415] overflow-hidden bg-[#0A1120]">
-              <ClippedSheetImage
-                src="/assets/aistudio/image_2822265f.png"
-                crop="330 143 1246 415"
+              <img
+                src="/assets/aistudio/props/cover-maher.jpg"
                 alt="Maher Habouria devant son mur d'outils Park Tool chez Velo Reglo Nabeul"
+                width={1246}
+                height={415}
+                loading="lazy"
+                decoding="async"
+                className="w-full h-full object-contain block"
               />
             </div>
 
             {/* Founder Caption Bar Below Uncropped Cover Photo */}
             <div className="px-5 py-3.5 bg-[#0E172A] border-t border-white/10 flex items-center justify-between gap-4">
               <div>
-                <div className="font-mono text-[11px] text-[#00A8E8] uppercase">
+                <div className="font-mono text-[11px] font-bold text-[#38BDF8] uppercase">
                   {copy.champion.founderRole}
                 </div>
                 <div className="font-display font-bold text-xl sm:text-2xl text-white tracking-wide uppercase">
                   MAHER HABOURIA
                 </div>
               </div>
-              <div className="font-mono text-xs text-[#F59E0B] tabular-nums shrink-0">
+              <div className="font-mono text-xs font-bold text-[#FBBF24] tabular-nums shrink-0">
                 {copy.champion.sinceLabel}
               </div>
             </div>
 
             {/* Athlete Profile & Quote Strip */}
             <div className="p-5 flex items-center gap-4 border-t border-white/10 bg-[#131F38]">
-              <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 border border-white/15 bg-[#0A1120]">
-                <ClippedSheetImage
-                  src="/assets/aistudio/image_cb91b2cb.png"
-                  crop="374 270 112 112"
+              <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 border border-white/20 bg-[#0A1120]">
+                <img
+                  src="/assets/aistudio/props/avatar-maher.jpg"
                   alt="Profil athlète Maher Habouria 10x Champion"
+                  width={112}
+                  height={112}
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-full object-cover block"
                 />
               </div>
-              <div className="text-xs text-slate-300 space-y-1">
+              <div className="text-xs text-slate-200 space-y-1">
                 <div className="font-semibold text-white leading-relaxed">
                   {copy.champion.quote}
                 </div>
-                <div className="text-slate-400 font-mono text-[11px]">
+                <div className="text-slate-300 font-mono text-[11px]">
                   {copy.champion.quoteSub}
                 </div>
               </div>
@@ -241,7 +203,7 @@ export const ChampionAtelierSection: React.FC<ChampionAtelierSectionProps> = ({
 
       {/* =====================================================================
           WORKSHOP REELS & REAL BUILDS SHOWCASE (#VELO_REGLO_BIEN_REGLO)
-          100% Uncropped Vertical Reels (Exact 154x246 Native Aspect Ratio + Hard SVG Clip)
+          100% Uncropped Vertical Reels (Exact 154x246 Native Aspect Ratio)
          ===================================================================== */}
       <section
         id="reels"
@@ -252,7 +214,7 @@ export const ChampionAtelierSection: React.FC<ChampionAtelierSectionProps> = ({
           {/* Header & Interactive Filter Controls */}
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
             <div className="space-y-2">
-              <div className="text-xs font-mono font-semibold text-[#0073CF] uppercase tracking-wider">
+              <div className="text-xs font-mono font-bold text-[#005A9E] uppercase tracking-wider">
                 {copy.reels.kicker}
               </div>
               <h2 className="font-display font-extrabold text-[clamp(2rem,3.5vw,3.25rem)] leading-tight tracking-tight text-[#0A1120] uppercase">
@@ -279,10 +241,10 @@ export const ChampionAtelierSection: React.FC<ChampionAtelierSectionProps> = ({
                   key={tab.id}
                   type="button"
                   onClick={() => setActiveFilter(tab.id)}
-                  className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+                  className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
                     activeFilter === tab.id
                       ? 'bg-[#0A1120] text-white shadow-2xs'
-                      : 'text-[#475569] hover:text-[#0A1120]'
+                      : 'text-[#334155] hover:text-[#0A1120]'
                   }`}
                 >
                   {tab.label}
@@ -317,24 +279,27 @@ export const ChampionAtelierSection: React.FC<ChampionAtelierSectionProps> = ({
                     className={`group rounded-2xl border overflow-hidden transition-all cursor-pointer p-3.5 flex flex-row gap-4 items-center ${
                       isSelected
                         ? 'bg-white border-[#0073CF] shadow-md ring-2 ring-[#0073CF]/20'
-                        : 'bg-white border-[#0A1120]/10 hover:border-[#0A1120]/30'
+                        : 'bg-white border-[#0A1120]/12 hover:border-[#0A1120]/35'
                     }`}
                   >
-                    {/* Exact 154:246 Uncropped Vertical Reel Frame — Self-centered so aspect ratio is never stretched! */}
+                    {/* Exact 154:246 Uncropped Vertical Reel Frame */}
                     <div className="relative w-[124px] sm:w-[136px] aspect-[154/246] shrink-0 self-center rounded-xl overflow-hidden bg-[#0A1120] border border-[#0A1120]/10 shadow-xs">
-                      <ClippedSheetImage
+                      <img
                         src={reel.imageSrc}
-                        crop={reel.imageCropPosition}
                         alt={reel.title[lang]}
-                        className="w-full h-full block group-hover:scale-[1.03] transition-transform duration-300"
+                        width={154}
+                        height={246}
+                        loading="lazy"
+                        decoding="async"
+                        className="w-full h-full object-contain block group-hover:scale-[1.03] transition-transform duration-300"
                       />
-                      <div className="absolute inset-x-0 bottom-0 h-11 bg-gradient-to-t from-[#0A1120]/90 via-[#0A1120]/35 to-transparent pointer-events-none" />
+                      <div className="absolute inset-x-0 bottom-0 h-11 bg-gradient-to-t from-[#0A1120]/95 via-[#0A1120]/45 to-transparent pointer-events-none" />
                       <div
                         dir="ltr"
                         className="absolute bottom-2 left-2 right-2 flex items-center justify-between text-[10px] font-mono text-white"
                       >
                         <span className="font-bold truncate">{reel.brand}</span>
-                        <span className="tabular-nums text-[#00A8E8] shrink-0">
+                        <span className="tabular-nums text-[#38BDF8] font-bold shrink-0">
                           {reel.views}
                         </span>
                       </div>
@@ -344,18 +309,18 @@ export const ChampionAtelierSection: React.FC<ChampionAtelierSectionProps> = ({
                       <div className="space-y-1.5">
                         <div
                           dir="ltr"
-                          className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono text-[#475569]"
+                          className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono text-[#334155]"
                         >
                           <span className="truncate">{reel.drivetrain}</span>
                           <span aria-hidden="true">·</span>
-                          <span className="tabular-nums text-[#0073CF] font-semibold">
+                          <span className="tabular-nums text-[#005A9E] font-bold">
                             {reel.torque}
                           </span>
                         </div>
                         <h3 className="font-display font-bold text-lg sm:text-xl leading-tight text-[#0A1120] uppercase tracking-wide">
                           {reel.title[lang]}
                         </h3>
-                        <p className="text-xs text-[#475569] leading-relaxed">
+                        <p className="text-xs text-[#334155] leading-relaxed">
                           {reel.summary[lang]}
                         </p>
                       </div>
@@ -366,7 +331,7 @@ export const ChampionAtelierSection: React.FC<ChampionAtelierSectionProps> = ({
                           e.stopPropagation();
                           handleSelectReel();
                         }}
-                        className="pt-2 text-xs font-semibold text-[#0073CF] group-hover:text-[#0A1120] inline-flex items-center gap-1.5 whitespace-nowrap shrink-0 cursor-pointer"
+                        className="pt-2 text-xs font-bold text-[#005A9E] group-hover:text-[#0A1120] inline-flex items-center gap-1.5 whitespace-nowrap shrink-0 cursor-pointer"
                       >
                         <Wrench className="w-3.5 h-3.5" aria-hidden="true" />
                         <span>{copy.reels.inspectBtn}</span>
@@ -382,9 +347,9 @@ export const ChampionAtelierSection: React.FC<ChampionAtelierSectionProps> = ({
               id="reel-inspection-panel"
               className="lg:col-span-5 bg-[#0A1120] text-white rounded-2xl p-6 sm:p-7 border border-[#0A1120] space-y-6"
             >
-              <div className="flex items-center justify-between border-b border-white/10 pb-4 gap-3">
+              <div className="flex items-center justify-between border-b border-white/15 pb-4 gap-3">
                 <div>
-                  <div className="font-mono text-xs text-[#00A8E8] uppercase">
+                  <div className="font-mono text-xs font-bold text-[#38BDF8] uppercase">
                     {copy.reels.reportTitle}
                   </div>
                   <h3 className="font-display font-bold text-2xl uppercase tracking-wide mt-0.5">
@@ -393,7 +358,7 @@ export const ChampionAtelierSection: React.FC<ChampionAtelierSectionProps> = ({
                 </div>
                 <span
                   dir="ltr"
-                  className="font-mono text-xs text-[#F59E0B] tabular-nums shrink-0"
+                  className="font-mono text-xs font-bold text-[#FBBF24] tabular-nums shrink-0"
                 >
                   {inspectedReel.torque}
                 </span>
@@ -401,19 +366,23 @@ export const ChampionAtelierSection: React.FC<ChampionAtelierSectionProps> = ({
 
               {/* Side-by-Side Uncropped Full-Frame Reel + Operations Sheet */}
               <div className="flex flex-col sm:flex-row gap-5 items-center">
-                <div className="relative w-[154px] sm:w-[162px] aspect-[154/246] shrink-0 self-center rounded-xl overflow-hidden border border-white/15 bg-[#131F38] shadow-lg">
-                  <ClippedSheetImage
+                <div className="relative w-[154px] sm:w-[162px] aspect-[154/246] shrink-0 self-center rounded-xl overflow-hidden border border-white/20 bg-[#131F38] shadow-lg">
+                  <img
                     src={inspectedReel.imageSrc}
-                    crop={inspectedReel.imageCropPosition}
                     alt={`Inspection détaillée ${inspectedReel.brand}`}
+                    width={154}
+                    height={246}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-full object-contain block"
                   />
-                  <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-[#0A1120]/90 to-transparent pointer-events-none" />
+                  <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-[#0A1120]/95 to-transparent pointer-events-none" />
                   <div
                     dir="ltr"
                     className="absolute bottom-2 left-2.5 right-2.5 flex items-center justify-between text-[10px] font-mono text-slate-200"
                   >
-                    <span>{inspectedReel.brand}</span>
-                    <span className="text-[#00A8E8]">
+                    <span className="font-bold">{inspectedReel.brand}</span>
+                    <span className="text-[#38BDF8] font-bold">
                       {inspectedReel.views} {copy.reels.viewsUnit}
                     </span>
                   </div>
@@ -421,7 +390,7 @@ export const ChampionAtelierSection: React.FC<ChampionAtelierSectionProps> = ({
 
                 <div className="flex-1 flex flex-col justify-between space-y-4 w-full">
                   <div className="space-y-2.5">
-                    <div className="text-xs font-mono text-[#00A8E8] uppercase">
+                    <div className="text-xs font-mono font-bold text-[#38BDF8] uppercase">
                       {copy.reels.operationsHeading}
                     </div>
                     <ul className="space-y-2.5">
@@ -431,7 +400,7 @@ export const ChampionAtelierSection: React.FC<ChampionAtelierSectionProps> = ({
                           className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-200 leading-snug"
                         >
                           <CheckCircle2
-                            className="w-4 h-4 text-[#00A8E8] shrink-0 mt-0.5"
+                            className="w-4 h-4 text-[#38BDF8] shrink-0 mt-0.5"
                             aria-hidden="true"
                           />
                           <span>{op}</span>
@@ -440,7 +409,7 @@ export const ChampionAtelierSection: React.FC<ChampionAtelierSectionProps> = ({
                     </ul>
                   </div>
 
-                  <div className="pt-2 border-t border-white/10 text-[11px] font-mono text-slate-400">
+                  <div className="pt-2 border-t border-white/15 text-[11px] font-mono text-slate-300">
                     {copy.reels.archiveLabel}
                   </div>
                 </div>
@@ -480,24 +449,24 @@ export const ChampionAtelierSection: React.FC<ChampionAtelierSectionProps> = ({
         <div className="max-w-[1080px] mx-auto px-4 sm:px-8">
           <div className="rounded-3xl bg-gradient-to-br from-[#131F38] via-[#0F1B33] to-[#0A1120] border border-[#00A8E8]/25 p-8 sm:p-12 shadow-2xl flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
             <div className="space-y-3 max-w-[60ch]">
-              <div className="text-xs font-mono font-semibold text-[#00A8E8] uppercase tracking-wider">
+              <div className="text-xs font-mono font-bold text-[#38BDF8] uppercase tracking-wider">
                 {copy.directBooking.kicker}
               </div>
               <h2 className="font-display font-extrabold text-[clamp(1.85rem,3.4vw,3rem)] leading-tight uppercase text-white">
                 {copy.directBooking.headline}
               </h2>
-              <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
+              <p className="text-slate-200 text-sm sm:text-base leading-relaxed">
                 {copy.directBooking.subtitle}
               </p>
-              <div className="flex flex-wrap items-center gap-3 pt-2 text-xs font-mono text-slate-300">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white/8 border border-white/10">
+              <div className="flex flex-wrap items-center gap-3 pt-2 text-xs font-mono text-slate-200">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white/10 border border-white/15">
                   <MapPin
-                    className="w-3.5 h-3.5 text-[#00A8E8]"
+                    className="w-3.5 h-3.5 text-[#38BDF8]"
                     aria-hidden="true"
                   />
                   {copy.directBooking.locationBadge}
                 </span>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white/8 border border-white/10">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white/10 border border-white/15">
                   <ShieldCheck
                     className="w-3.5 h-3.5 text-[#25D366]"
                     aria-hidden="true"
